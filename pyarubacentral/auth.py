@@ -5,7 +5,6 @@ import requests, json
 
 class CentralAuth():
     def __init__(self, client_id, client_secret):
-        self.token = token
         self.client_id = client_id
         self.client_secret = client_secret
 
