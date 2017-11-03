@@ -2,3 +2,4 @@
 *.json
 .idea
 old/
+config.json

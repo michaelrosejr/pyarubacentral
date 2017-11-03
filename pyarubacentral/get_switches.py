@@ -4,7 +4,7 @@ import requests, json
 from pyarubacentral import auth
 
 
-def get_switches(access_token):
+def get_switches(access_token, refresh_token):
     url = "https://app1-apigw.central.arubanetworks.com/monitoring/v1/switches"
     payload = {'access_token': access_token}
     headers = {"Accept": "application/json"}
