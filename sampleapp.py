@@ -77,12 +77,13 @@ def networklist():
     print(json.dumps((networks.get_networks(access_token))))
 
 @cli.command()
-def grouplist(grouplist):
+def grouplist():
     print(json.dumps((groups.get_groups(access_token))))
 
 @cli.command()
-def group():
-    groupname = "Retail_AMER"
+@click.option('--groupname', help="Enter group name to search")
+def group(groupname):
+    #groupname = "Retail_AMER"
     print(json.dumps((groups.get_group(access_token, groupname))))
 
 
