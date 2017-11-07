@@ -10,7 +10,6 @@ import pyarubacentral.get_switches as switches
 import pyarubacentral.get_groups as groups
 import pyarubacentral.get_networks as networks
 import pyarubacentral.get_template_vars as template_vars
-from pyarubacentral import centraljson
 from pyarubacentral import monitoring
 
 def read_config():
@@ -68,11 +67,12 @@ def cli():
 
 @cli.command()
 def get_monitoring_net():
-    print((monitoring.monitoring.get_monitoring_v1_networks(access_token, refresh_token)))
+    print((monitoring.Monitoring.get_monitoring_v1_networks(access_token, refresh_token)))
 
 @cli.command()
 def get_monitoring_switches():
-    print(monitoring.monitoring.get_monitoring_v1_switches(access_token, refresh_token))
+    networklist = monitoring.Monitoring(access_token, refresh_token, 'none')
+    print(networklist.get_monitoring_v1_switches())
 
 @cli.command()
 def templatevars():
