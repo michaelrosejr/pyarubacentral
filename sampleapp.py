@@ -10,6 +10,8 @@ import pyarubacentral.get_switches as switches
 import pyarubacentral.get_groups as groups
 import pyarubacentral.get_networks as networks
 import pyarubacentral.get_template_vars as template_vars
+from pyarubacentral import centraljson
+from pyarubacentral import monitoring
 
 def read_config():
     with open("config.yml", 'r') as ymlfile:
@@ -49,6 +51,7 @@ if current_time  > expires_at:
 @click.group()
 def cli():
     """CLI for Aruba Central"""
+    pass
 
 # @cli.command()
 # @click.option('--refresh', flag_value=1)
@@ -63,6 +66,13 @@ def cli():
 #         # with open(tokenfile, "w") as exjsonfile:
 #         #     json.dump(response.json(), exjsonfile)
 
+@cli.command()
+def get_monitoring_net():
+    print((monitoring.monitoring.get_monitoring_v1_networks(access_token, refresh_token)))
+
+@cli.command()
+def get_monitoring_switches():
+    print(monitoring.monitoring.get_monitoring_v1_switches(access_token, refresh_token))
 
 @cli.command()
 def templatevars():
@@ -86,6 +96,9 @@ def group(groupname):
     #groupname = "Retail_AMER"
     print(json.dumps((groups.get_group(access_token, groupname))))
 
+@cli.command()
+def get_centraljson():
+    print(centraljson.get_centraljson(access_token, refresh_token))
 
 if __name__ == "__main__":
     cli()
