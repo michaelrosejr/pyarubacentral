@@ -11,6 +11,7 @@ import pyarubacentral.get_groups as groups
 import pyarubacentral.get_networks as networks
 import pyarubacentral.get_template_vars as template_vars
 from pyarubacentral import monitoring
+from pyarubacentral import configuration
 
 def read_config():
     with open("config.yml", 'r') as ymlfile:
@@ -64,6 +65,12 @@ def cli():
 #         tokenconfig['created_at'] = current_time() + tokenconfig['expires_in']
 #         # with open(tokenfile, "w") as exjsonfile:
 #         #     json.dump(response.json(), exjsonfile)
+
+@cli.command()
+@click.option('--serial', '-s', help="Get templates vars for device")
+def get_configuration_template_vars(serial):
+    device_vars = configuration.Configuration(access_token, refresh_token, serial)
+    print(device_vars.get_configuration_v1_devices_template_variables())
 
 @cli.command()
 def get_monitoring_net():
