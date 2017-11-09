@@ -19,13 +19,29 @@ def get_central(access_token, refresh_token, url):
     except requests.exceptions.RequestException as error:
         return "Error:\n" + str(error) + sys._getframe().f_code.co_name + ": An Error has occured"
 
+def push_central(access_token, refresh_token, url, data):
+    """
+    Login and push data to Aruba Central
+    """
+    payload = {'access_token': access_token}
+    headers = {"Accept": "application/json"}
+
+    try:
+        r = requests.get(url, params=payload, headers=headers, data=data)
+        if r.status_code != 200:
+            print('Status:', r.status_code, 'Headers:', r.headers,
+                  'Error Response:', r.reason)
+        return r.text
+    except requests.exceptions.RequestException as error:
+        return "Error:\n" + str(error) + sys._getframe().f_code.co_name + ": An Error has occured"
 
 class Configuration():
     """ Central Monitoring APIs """
-    def __init__(self, access_token, refresh_token, pvalue):
+    def __init__(self, access_token, refresh_token, pvalue, data):
         self.access_token = access_token
         self.refresh_token = refresh_token
         self.pvalue = pvalue
+        self.data = data
 
 
     def get_configuration_v1_devices_template_variables(self):
@@ -34,7 +50,7 @@ class Configuration():
             None
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/devices/" + self.pvalue + "/template_variables"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url, self.data)
         return response
 
 
@@ -44,7 +60,7 @@ class Configuration():
             None
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/devices/" + self.pvalue + "/recover_device"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -54,7 +70,7 @@ class Configuration():
             None
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/certificates"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -64,7 +80,7 @@ class Configuration():
             Get config mode as either Monitor or Managed mode at device level in given gro
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/mode/device"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -74,7 +90,7 @@ class Configuration():
             None
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/devices/" + self.pvalue + "/template_variables"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -84,7 +100,7 @@ class Configuration():
             Get customers & groups where given MSP level template is not applie
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/msp/templates/differences/" + self.pvalue + "/" + self.pvalue + "/" + pvalue
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -94,7 +110,7 @@ class Configuration():
             Get config mode as either Monitor or Managed mode at group lev
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/mode/group"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -104,7 +120,7 @@ class Configuration():
             Get all templates in group. Query can be filtered by name, device_type, version, model or J number(for ArubaSwitch). Response is sorted by template na
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/groups/" + self.pvalue + "/templates"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -114,7 +130,7 @@ class Configuration():
             Get default gro
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/groups/default_group"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -124,7 +140,7 @@ class Configuration():
             Get MSP level template te
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/msp/templates/" + self.pvalue + "/" + self.pvalue + "/" + pvalue
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -134,7 +150,7 @@ class Configuration():
             Get template text for a template in grou
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/groups/" + self.pvalue + "/templates/" + pvalue
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -151,7 +167,7 @@ class Configuration():
 			-  -----END VARIABLES---
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/devices/" + self.pvalue + "/variablised_template"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -168,7 +184,7 @@ class Configuration():
 			-  -----END VARIABLES---
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/devices/move"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -178,7 +194,7 @@ class Configuration():
             Get all groups, Response is sorted by group na
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/groups"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -188,7 +204,7 @@ class Configuration():
             Get config mode as either Monitor or Managed mode at customer lev
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/mode"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -198,7 +214,7 @@ class Configuration():
             Get gro
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/groups/" + pvalue
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -208,7 +224,7 @@ class Configuration():
             Get gro
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/devices/" + self.pvalue + "/clis"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -218,7 +234,7 @@ class Configuration():
             Get gro
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/certificates/" + pvalue
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -228,7 +244,7 @@ class Configuration():
             Get central side configuration, device running configuration, configuration error details, template error details and status of a device belonging to a template grou
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/devices/" + self.pvalue + "/config_details"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -238,7 +254,7 @@ class Configuration():
             None
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/cplogo"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -248,7 +264,7 @@ class Configuration():
             None
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/devices/" + self.pvalue + "/ssh_connection"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -258,7 +274,7 @@ class Configuration():
             None
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/devices/" + self.pvalue + "/group"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -268,7 +284,7 @@ class Configuration():
             Get groups where given END customer level template is not applie
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/msp/templates/differences/customer/" + self.pvalue + "/" + self.pvalue + "/" + self.pvalue + "/" + pvalue
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -278,7 +294,7 @@ class Configuration():
             Get groups where given END customer level template is not applie
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/devices/" + self.pvalue + "/assign_mm/" + pvalue
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -288,7 +304,7 @@ class Configuration():
             Get all MSP customer level templates details. Query can be filtered by device_type, version, mode
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/msp/templates"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -298,7 +314,7 @@ class Configuration():
             None
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/devices/" + self.pvalue + "/configuration"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -308,7 +324,7 @@ class Configuration():
             None
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/groups/" + self.pvalue + "/clis/"
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -318,7 +334,7 @@ class Configuration():
             Get MSP level template te
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/msp/templates/customer/" + self.pvalue + "/" + self.pvalue + "/" + self.pvalue + "/" + pvalue
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -328,7 +344,7 @@ class Configuration():
             Get MSP level template te
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/cplogo/" + pvalue
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response
 
 
@@ -338,5 +354,5 @@ class Configuration():
             Get all END customer level templates details. Query can be filtered by device_type, version, mode
         """
         url = "https://app1-apigw.central.arubanetworks.com/configuration/v1/msp/templates/customer/" + pvalue
-        response = get_central(self.access_token, self.refresh_token, url)
+        response = push_central(self.access_token, self.refresh_token, url)
         return response

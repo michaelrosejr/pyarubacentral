@@ -22,7 +22,7 @@ class CentralAuth():
 
         self.response = response.json()
 
-    def refresh_token(self, client_id, client_secret, refresh_token, ):
+    def refresh_token(self, client_id, client_secret, refresh_token):
 
         url = "https://app1-apigw.central.arubanetworks.com/oauth2/token"
         payload = {'refresh_token': refresh_token, 'client_id': client_id, 'client_secret': client_secret, 'grant_type': 'refresh_token' }

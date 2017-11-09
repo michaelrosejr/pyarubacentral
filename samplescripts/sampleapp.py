@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+"""
+This is an example of how to use the following pyarubacentral module.
+The sample script includes how to read a config file, access the modules
+using a access_token refreshing that token and printing the result.
+"""
 import requests
 import json
 import click
@@ -12,6 +17,11 @@ import pyarubacentral.get_networks as networks
 import pyarubacentral.get_template_vars as template_vars
 from pyarubacentral import monitoring
 from pyarubacentral import configuration
+
+__author__ = "Michael Rose Jr."
+__maintainer__ = "Michael Rose Jr."
+__email__ = "michael@michaelrosejr.com"
+__status__ = "Production"
 
 def read_config():
     with open("config.yml", 'r') as ymlfile:
@@ -67,6 +77,13 @@ def cli():
 #         #     json.dump(response.json(), exjsonfile)
 
 @cli.command()
+@click.option('--serial', '-s', help="Create device template vars for device")
+@click.option('--jsonfile', '-j', help="JSON file to add to Central")
+def create_device_vars(serial, jsonfile):
+    create_device = configuration.Configuration(access_token, refresh_token, serial, jsonfile)
+    print(create_device.get_configuration_v1_devices_template_variables())
+
+@cli.command()
 @click.option('--serial', '-s', help="Get templates vars for device")
 def get_configuration_template_vars(serial):
     device_vars = configuration.Configuration(access_token, refresh_token, serial)
@@ -80,6 +97,11 @@ def get_monitoring_net():
 def get_monitoring_switches():
     networklist = monitoring.Monitoring(access_token, refresh_token, 'none')
     print(networklist.get_monitoring_v1_switches())
+
+@cli.command()
+def get_bssids():
+    bssids = monitoring.Monitoring(access_token, refresh_token, 'none')
+    print(bssids.get_monitoring_v1_bssids())
 
 @cli.command()
 def templatevars():
