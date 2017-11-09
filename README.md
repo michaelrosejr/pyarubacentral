@@ -4,6 +4,8 @@
 
 A Python module for use with Aruba Central. Its aim is to make life easier for people who are not primarily programmers, but need to interact with services in a programmatic manner (e.g. automation)
 
+To install directly into your python environment please use the **pip install pyarubacentral** command
+
 ### Prequisites
 
 The following Python module assumes you have already created an API account on Aruba Central, requested a code and exchanged that code for a token. For details on how to do these steps, please follow the steps in [this guide](http://help.central.arubanetworks.com/2.2.6/documentation/online_help/content/pdfs/aruba%20central%20api%20reference%20guide.pdf)
