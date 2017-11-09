@@ -1,6 +1,9 @@
+dist/
+build/
 *.pyc
 *.yml
 *.json
 .idea
 old/
+*.egg-info
 config.json
