@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import requests, json
+import requests, json, logging
 
 class CentralAuth():
     def __init__(self, client_id, client_secret, envurl):
@@ -39,3 +39,53 @@ class CentralAuth():
             json.dump(response.json(), exjsonfile)
 
         print("RESPONSE: ", response.json())
+
+    def get_login_cookies(config):
+        querystring = {"client_id":config["client_id"]}
+        payload = "{\r\"username\": \"" + config['username'] + "\", \r\"password\": \"" + config['password'] +"\"\r}"
+
+        # payload = {'username': 'michael@rozebud.com', 'password': 'Aruba123#'}
+        headers = {
+            'content-type': "application/json",
+            'cache-control': "no-cache",
+            }
+
+
+        response = requests.post(config["login_url"], data=payload, headers=headers, params=querystring)
+        logging.info(response.text)
+        return(response.cookies)
+
+    # def get_auth_code(self, client_id, client_secret, refresh_token, envurl):
+    #     pass
+    def get_auth_code(cookies, config):
+
+
+        querystring = {"client_id": config["client_id"],"response_type":"code","scope":"all"}
+
+        # payload = "{\n\"customer_id\": \"" + cookies['csrftoken'] + "\"\n}"
+        payload = "{\n\"customer_id\": \"" + str(config['customer_id']) + "\"\n}"
+
+        headers = {
+            'content-type': "application/json",
+            'x-csrf-token': cookies['csrftoken'],
+            'cookie': "session=" + cookies['session'],
+            'cache-control': "no-cache",
+            }
+
+        response = requests.post(config["auth_code_url"], data=payload, headers=headers, params=querystring)
+        logging.info(response.text)
+        return(response.text)
+    def get_access_tokens(config, auth_code):
+
+        querystring = {"client_id": config['client_id'],"grant_type":"authorization_code","code": auth_code,"client_secret":config['client_secret']}
+
+        headers = {
+            'cache-control': "no-cache",
+            }
+
+        response = requests.post(config['access_token_url'], headers=headers, params=querystring)
+        logging.info(response.text)
+        return(response)
+
+    def exchange_auth_code(self, client_id, client_secret, refresh_token, envurl):
+        pass

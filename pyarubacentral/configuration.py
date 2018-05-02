@@ -162,7 +162,6 @@ class Configuration():
 			- -----BEGIN TEMPLATE-----
 			-  template body
 			-  -----END TEMPLATE-----
-
 			-  -----BEGIN VARIABLES-----
 			-  variables information
 			-  -----END VARIABLES---
@@ -179,7 +178,6 @@ class Configuration():
 			- -----BEGIN TEMPLATE-----
 			-  template body
 			-  -----END TEMPLATE-----
-
 			-  -----BEGIN VARIABLES-----
 			-  variables information
 			-  -----END VARIABLES---

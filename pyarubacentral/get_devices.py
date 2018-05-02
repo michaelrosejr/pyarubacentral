@@ -3,9 +3,8 @@
 import requests, json
 from pyarubacentral import auth
 
-
-def get_switches(sessiondata):
-    url = "https://app1-apigw.central.arubanetworks.com/monitoring/v1/switches"
+def get_device_inventory(sessiondata, type):
+    url = "https://app1-apigw.central.arubanetworks.com/device_inventory/v2/devices?sku_type=" + type
     payload = {'access_token': sessiondata['access_token']}
     headers = {"Accept": "application/json"}
 

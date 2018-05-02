@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Access Points</h1>
+<div class="container">
+  <table class="table table-striped table-hover table-sm">
+  <tr>
+    <th>
+      IP Address
+    </th>
+    <th>
+      MAC address
+    </th>
+
+    <th>
+      Model
+    </th>
+    <th>
+      Radio MAC Addresses
+    </th>
+
+    <th>
+      firmware_version
+    </th>
+    <th>
+      BLE Address
+    </th>
+  </tr>
+  {% for value in aplist %}
+  <tr>
+      <td>
+        {{ value['ip_address'] }}
+      </td>
+      <td>
+        {{ value['macaddr']}}
+      </td>
+
+      <td>
+        {{ value['model']}}
+      </td>
+      <td>
+        {% for i in value['radios'] %}
+          Radio {{ i['band'] }}: {{ i['macaddr'] }}<br />
+        {% endfor %}
+      </td>
+      <td>
+        {{ value['firmware_version']}}
+      </td>
+      <td>
+        {{ value['macaddr']}}
+
+      </td>
+  </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
