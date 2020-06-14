@@ -3,6 +3,7 @@ build/
 *.pyc
 *.yml
 *.json
+.vscode
 .idea
 old/
 *.egg-info

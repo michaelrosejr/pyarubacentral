@@ -18,7 +18,7 @@ def get_central(sessiondata, url):
 
 
 class Usermgmt():
-    """ Central Monitoring APIs """
+    """ Central Usermgmt APIs """
     def __init__(self, sessiondata, pvalue):
         self.sessiondata = sessiondata
 

@@ -15,6 +15,8 @@ def get_wifi_clients(sessiondata, group):
 
 def get_wifi_aps(sessiondata, group):
     url = "https://app1-apigw.central.arubanetworks.com/monitoring/v1/aps?group=" + group
+    url = "https://app1-apigw.central.arubanetworks.com/monitoring/v1/aps"
+
     payload = {'access_token': sessiondata['access_token']}
     headers = {"Accept": "application/json"}
 
