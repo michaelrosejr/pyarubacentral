@@ -6,3 +6,4 @@
   recursive-include samplescripts *.py
   recursive-include samplescripts *.sample
   recursive-include samplescripts *.yml
+  recursive-include bin *.py
