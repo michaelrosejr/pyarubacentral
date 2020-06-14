@@ -2,6 +2,7 @@
 
 import argparse
 import os 
+import json
 
 parser = argparse.ArgumentParser(description='Interact with Aruba Central')
 # parser.add_argument('integers', metavar='N', type=int, nargs='+',
@@ -11,6 +12,8 @@ parser = argparse.ArgumentParser(description='Interact with Aruba Central')
 #                     help='sum the integers (default: find the max)')
 parser.add_argument('--refresh', dest='profile',
                     help='Refresh access token for profile')
+parser.add_argument('--newtoken', dest='newtoken',
+                    help='Generate new access token for profile')
 parser.add_argument('--configure', action="store_true",
                     help='Create configuration files for pyarubacentral module')
 
@@ -57,6 +60,13 @@ def check_config(args):
             copy_config_files(backup=0)
             print("\nExiting...")
 
+def authcode(profile):
+    import pyarubacentral
+    session = pyarubacentral.start_session(profile)
+    logindata = session.get_authcode(session.get_login())
+    access_token = json.loads(session.get_access_token(logindata))['access_token']
+    print("\nAccess Token: {}\n".format(access_token))
+
 def refresh(profile):
     import pyarubacentral
     session = pyarubacentral.start_session(profile)
@@ -70,6 +80,8 @@ def main():
         check_config(args)
     elif args.profile:
         refresh(args.profile)
+    elif args.newtoken:
+        authcode(args.newtoken)
 
 
 if __name__== "__main__":

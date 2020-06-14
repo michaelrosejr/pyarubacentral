@@ -89,6 +89,7 @@ class CentralAuth:
         else:
             print("ERROR CODE: " + str(r.status_code))
             print("ERORR Detail: " + str(r.text))
+            print("\nERROR : The information in the config or accounts YAML files are incorrect.\nERROR : Please check your configuration and ARruba Central settings are corect\n")
         
         logincookies = {
             "csrftoken": csrftoken,
