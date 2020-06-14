@@ -1,0 +1,8 @@
+  include *.lock
+  include *.py
+  include *.txt
+  include Pipfile
+  recursive-include pyarubacentral *.py
+  recursive-include samplescripts *.py
+  recursive-include samplescripts *.sample
+  recursive-include samplescripts *.yml

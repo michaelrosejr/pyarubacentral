@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-import os 
+import os, sys
 import json
 
 parser = argparse.ArgumentParser(description='Interact with Aruba Central')
@@ -76,7 +76,10 @@ def refresh(profile):
 
 def main():
     # print(args)
-    if args.configure == True:
+    if len(sys.argv)==1:
+        parser.print_help(sys.stderr)
+        sys.exit(1)
+    elif args.configure == True:
         check_config(args)
     elif args.profile:
         refresh(args.profile)
