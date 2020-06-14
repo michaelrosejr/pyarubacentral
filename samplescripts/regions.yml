@@ -1,0 +1,32 @@
+#
+#
+# Aruba Central Regions
+# There shouldn't be any need to update this file.
+#
+#
+US-2:
+  url: https://apigw-prod2.central.arubanetworks.com
+
+US-1:
+  url: https://app1-apigw.central.arubanetworks.com
+
+EU-1:
+  url: https://eu-apigw.central.arubanetworks.com
+
+Canada-1:
+  url: https://apigw-ca.central.arubanetworks.com
+
+China-1:
+  url: https://apigw.central.arubanetworks.com.cn
+
+APAC-1:
+  url: https://api-ap.central.arubanetworks.com
+
+APAC-EAST1:
+  url: https://apigw-apaceast.central.arubanetworks.com
+
+APAC-SOUTH1:
+  url: https://apigw-apacsouth.central.arubanetworks.com
+
+Internal:
+  url: https://internal-apigw.central.arubanetworks.com

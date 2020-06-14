@@ -1,0 +1,18 @@
+
+#
+# Place your username/password credentials here to generate new refresh tokens. 
+#
+# profile:
+#   account_username:
+#   account_password:
+#
+# If your password has a special character, it's best to put the entire password
+# within "".
+
+profileOne:
+  username: *************
+  password: "*************"
+
+profileTwo:
+  username: *************
+  password: "*************"

@@ -1,0 +1,40 @@
+# Configuration file for this token refresh tool.
+#
+# URL for Aruba Centarl APIs
+# US-1: https://app1-apigw.central.arubanetworks.com
+# US-2: https://apigw-prod2.central.arubanetworks.com
+# CAN-1: https://apigw-ca.central.arubanetworks.com
+#
+# The URL for your account will be listed under the 
+# Maintenance > API Gateway within your Aruba Central
+# account.
+#
+#
+
+ACME: 
+  # region is referenced from the ~/.arubacentral/regions.yml file
+  region: US-2
+  # client_id, client_secret, customer_id are stored in the API Gateway 
+  # settings within Aruba Central
+  customer_id: ******
+  client_id: ************
+  client_secret: ************
+  # reference from ~/.arubacentral/accounts.yml file
+  user_account: profileOne
+
+CoffeeShop: 
+  # region is referenced from the ~/.arubacentral/regions.yml file
+  region: US-2
+  customer_id: ******
+  client_id: ************
+  client_secret: ************
+  # reference from ~/.arubacentral/accounts.yml file
+  user_account: profileTwo
+
+TicTacStuff:
+  region: US-2
+  customer_id: ***********
+  client_id: ************
+  client_secret: ************
+  user_account: profileTwo
+
