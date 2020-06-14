@@ -53,11 +53,11 @@ arubacentral --configure
 `
 
 Once configured, open your editor and edit the following files 
-`
+```
 ~/.arubacentral/accounts.yml
 ~/.arubacentral/config.yml
 ~/.arubacentral/regions.yml
-`
+```
 
 ![accounts.yml](https://raw.githubusercontent.com/michaelrosejr/pyarubacentral/media/accounts.yml.example.png)
 
