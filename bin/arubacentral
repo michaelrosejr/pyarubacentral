@@ -20,29 +20,42 @@ args = parser.parse_args()
 config_dir = os.environ["HOME"] + "/.arubacentral/"
 yaml_files = ['accounts.yml', 'regions.yml', 'config.yml']
 
+def copy_config_files(backup):
+    for conffile in yaml_files:
+        print("Copying file " + conffile + " to " + config_dir + "....")
+        if backup == 1:
+            os.system('mv ' + config_dir+conffile + ' ' + config_dir+conffile + '.backup')
+        os.system('wget -O ' + config_dir+conffile + ' https://raw.githubusercontent.com/michaelrosejr/pyarubacentral/master/samplescripts/' + conffile + ".sample" )
+    print("\nUse your favorite editor and edit the following files for your Aruba Central accounts:")
+    for editconf in yaml_files:
+        print("\t" + config_dir+editconf )
+
 def check_config(args):
     if args.configure == True:
         print("Checking for existing configuration files....")
+        if os.path.exists(config_dir) == False:
+            print("Making directory " + config_dir)
+            os.system('mkdir -p ' + config_dir + "/tokens")
+            fexist = False
+        
         for chkfile in yaml_files:
             pwd = config_dir+chkfile
             if os.path.exists(pwd) == True:
                 print("\tFile exists: "+pwd)
                 fexist = True
+                  
             # print(os.path.exists('~/.arubacentral/accounts.yml'))
             # print(os.environ["HOME"])
         if fexist == True:
             print("\nDo you want to overwrite these files? [Y/N]: ", end = '')
             yn = str(input())
             if yn.lower() == "y":
-                for conffile in yaml_files:
-                    print("Copying file " + conffile + " to " + config_dir + "....")
-                    os.system('mv ' + config_dir+conffile + ' ' + config_dir+conffile + '.backup')
-                    os.system('wget -O ' + config_dir+conffile + ' https://raw.githubusercontent.com/michaelrosejr/pyarubacentral/master/samplescripts/' + conffile + ".sample" )
-                print("\nUse your favorite editor and edit the following files for your Aruba Central accounts:")
-                for editconf in yaml_files:
-                    print("\t" + config_dir+editconf )
+                copy_config_files(backup=1)
             else: 
                 print("Exiting...\n")    
+        else:
+            copy_config_files(backup=0)
+            print("\nExiting...")
 
 def refresh(profile):
     import pyarubacentral
