@@ -1,3 +1,0 @@
-requests
-sphinxcontrib-napoleon
-json

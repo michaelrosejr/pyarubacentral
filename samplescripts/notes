@@ -1,4 +1,0 @@
-./sampleapp.py get_wifi_aps | jq '.[] | .[] | .radios | .[].macaddr '
-./sampleapp.py get_wifi_clients | jq '.[] | .[] | .macaddr'
-
-

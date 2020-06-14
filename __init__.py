@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from .pyarubacentral import start_session, check_if_expired, expires
+
 
 """
 Copyright 2017 Hewlett Packard Enterprise Development LP
@@ -11,7 +13,7 @@ under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR 
 OF ANY KIND, either express or implied. See the License for the specific language governing
 permissions and limitations under the License.
 """
-__author__ = “Michael Rose Jr."
-__maintainer__ = “Michael Rose Jr."
-__email__ = “michael@michaelrosejr.com"
+__author__ = "Michael Rose Jr."
+__maintainer__ = "Michael Rose Jr."
+__email__ = "michael@michaelrosejr.com"
 __status__ = "Production"

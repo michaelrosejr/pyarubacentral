@@ -1,3 +1,2 @@
-requests
-sphinxcontrib-napoleon
-json
+PyYAML==5.3.1
+requests==2.23.0
