@@ -8,3 +8,4 @@ build/
 old/
 *.egg-info
 config.json
+.bumpversion.cfg
