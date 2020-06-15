@@ -60,7 +60,7 @@ Once configured, open your editor and edit the following files
 
 ![accounts.yml](https://raw.githubusercontent.com/michaelrosejr/pyarubacentral/media/accounts.yml.example.png)
 
-![config.yaml](https://raw.githubusercontent.com/michaelrosejr/pyarubacentral/media/config.yaml.example.png)
+![config.yaml](https://raw.githubusercontent.com/michaelrosejr/pyarubacentral/media/config-screenshot.png)
 
 
 All tokens are stored in `~/.arubacentral/tokens/profilename.tokens.json`
