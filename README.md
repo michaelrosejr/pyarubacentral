@@ -24,8 +24,7 @@ The example script is included to show a list of users in Aruba Central or displ
  - CLI script to refresh access tokens 
  - CLI script to generate a new refresh and access token 
  - Python module to import to generate and refresh tokens automatically as the script it executed.
- ![enter image description here](https://raw.githubusercontent.com/michaelrosejr/pyarubacentral/media/refresh.png)
- ![enter image description here](https://raw.githubusercontent.com/michaelrosejr/pyarubacentral/media/newtoken.png)
+ ![enter image description here](https://raw.githubusercontent.com/michaelrosejr/pyarubacentral/media/refresh-newtoken.png)
 
 ### Installation
 To install directly into your python environment please install with the following command:
@@ -61,7 +60,7 @@ Once configured, open your editor and edit the following files
 
 ![accounts.yml](https://raw.githubusercontent.com/michaelrosejr/pyarubacentral/media/accounts.yml.example.png)
 
-![config.yaml](https://raw.githubusercontent.com/michaelrosejr/pyarubacentral/media/config.yaml.example.png)
+![config.yaml](https://raw.githubusercontent.com/michaelrosejr/pyarubacentral/media/config-screenshot.png)
 
 
 All tokens are stored in `~/.arubacentral/tokens/profilename.tokens.json`
@@ -70,12 +69,10 @@ should you need to edit them.
 To refresh an expired token:
 `arubacentral --refresh [profile_name]`
 
-![enter image description here](https://raw.githubusercontent.com/michaelrosejr/pyarubacentral/media/refresh.png)
-
 To generate a new access and refresh token:
 `arubacentral --newtoken [profile_name]`
 
-![enter image description here](https://raw.githubusercontent.com/michaelrosejr/pyarubacentral/media/newtoken.png)
+![enter image description here](https://raw.githubusercontent.com/michaelrosejr/pyarubacentral/media/refresh-newtoken.png)
 
 ### Python Module
 To use it as a python module within your code. See the [example](https://github.com/michaelrosejr/pyarubacentral/blob/master/samplescripts/exampleauth.py)
