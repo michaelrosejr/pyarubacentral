@@ -16,17 +16,35 @@ from datetime import datetime, timedelta
 # logging.basicConfig(level=logging.WARN)
 
 # configpathfor Aruba Central config files
-# TODO: Move to config file
+# TODO: move location of configuration files to config.yml instead of hard coded
 # default ~/.arubacentral/
 configpath= os.environ.get('HOME') + "/.arubacentral"
 # configpath= "./"
 
+import functools
+class LogDecorator(object):
+    def __init__(self):
+        self.logger = logging.getLogger(__name__)
+
+    def __call__(self, fn):
+        @functools.wraps(fn)
+        def decorated(*args, **kwargs):
+            try:
+                self.logger.debug("{0} - {1} - {2}".format(fn.__name__, args, kwargs))
+                result = fn(*args, **kwargs)
+                self.logger.debug(result)
+                return result
+            except Exception as ex:
+                self.logger.debug("Exception {0}".format(ex))
+                raise ex
+            return result
+        return decorated
 
 class Config:
     def __init__(self, profile):
         self.profile = profile
 
-        
+    @LogDecorator()    
     def read_accounts(self, account):
         if os.path.isfile( configpath+ "/accounts.yml"):
             with open("/accounts.yml", 'r') as ymlfile:
@@ -35,6 +53,7 @@ class Config:
         else: 
             print("Please read the README file and create the accounts.yml file using the sample.accounts.yml as a guide")
     
+    @LogDecorator()
     def read_config(self):
         if os.path.isfile( configpath+ "/config.yml"):
             with open( configpath + "/config.yml", 'r') as ymlfile:
@@ -75,6 +94,7 @@ class CentralAuth:
         self.cfgdata = cfgdata
         self.profile = cfgdata['profile']
     
+    @LogDecorator()
     def get_login(self):
         auth_url = self.cfgdata['url'] + "/oauth2/authorize/central/api/login"
         params = { "client_id": self.cfgdata['client_id'] }
@@ -100,6 +120,7 @@ class CentralAuth:
 
         return logincookies
 
+    @LogDecorator()
     def get_authcode(self, sdata):
         auth_url = self.cfgdata['url'] + "/oauth2/authorize/central/api"
         csrftoken = sdata['csrftoken']
@@ -123,6 +144,7 @@ class CentralAuth:
         logging.debug("authcode: %s", authcode)
         return authcode
 
+    @LogDecorator()
     def get_access_token(self, authcode):
         token_url = self.cfgdata['url'] + "/oauth2/token"
         data = {}
@@ -146,6 +168,7 @@ class CentralAuth:
         else:
             print("STATUS CODE: {} \nDetail: {}".format(str(r.status_code), str(r.text)))
 
+    @LogDecorator()
     def refresh_access_token(self, tokens):
         token_url = self.cfgdata['url'] + "/oauth2/token"
         data = {}
@@ -169,6 +192,7 @@ class CentralAuth:
         else:
             print("STATUS CODE: {} \nDetail: {}".format(str(r.status_code), str(r.text)))
 
+    @LogDecorator()
     def token_expired(self, access_token):
         expires_at = datetime.fromtimestamp(access_token['expires_at'])
         if datetime.now() > expires_at:
@@ -178,7 +202,7 @@ class CentralAuth:
             logging.debug("Access token valid. Expires at: %s ", expires_at)
             return 0
 
-        
+    @LogDecorator()        
     def get_user_account_list(self, access_token):
         token_url = self.cfgdata['url'] + "/platform/rbac/v1/users"
         headers = {
@@ -194,6 +218,7 @@ class CentralAuth:
         else:
             print("STATUS CODE: {} \nDetail: {}".format(str(r.status_code), str(r.text)))      
 
+@LogDecorator()
 def configure():
     # Create directory to save configuration and token files
     try:
@@ -261,7 +286,7 @@ def configure():
                 print("Writing configuration file to `{}` . ".format(configpath + "/config.yml"))
                 print("If you need to make changes, please edit this file with your favorite YAML editor")
 
-
+@LogDecorator()
 def check_if_expired(profile, session):
     with open( configpath + "/tokens/" + profile + ".token.json", 'r') as fp:
         access_token = json.load(fp) 
@@ -272,12 +297,14 @@ def check_if_expired(profile, session):
         access_token = session.refresh_access_token(access_token)['access_token']
     return access_token['access_token']
 
+@LogDecorator()
 def expires(profile):
     with open( configpath + "/tokens/" + profile + ".token.json", 'r') as fp:
         access_token = json.load(fp) 
 
     return datetime.fromtimestamp(access_token['expires_at'])
 
+@LogDecorator()
 def start_session(profile):
     # Set the configuration from the configpathconfig files
     config = Config(profile).read_config()
@@ -286,6 +313,7 @@ def start_session(profile):
     createsession = CentralAuth(config)
     return(createsession)
 
+@LogDecorator()
 def main():
     tool_description = "This tool is used for creating and refreshing tokens for Aruba Central. This module can be imported as a python module for your own python scripts.\n To add additonal accounts, regions, configurations; please edit the files located in ~/.arubacentral/\n All tokens are stored in ~/.arubacentral/tokens"
     parser = argparse.ArgumentParser(description=tool_description, add_help=True)

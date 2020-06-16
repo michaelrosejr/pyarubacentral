@@ -6,11 +6,6 @@ import json
 import logging
 
 parser = argparse.ArgumentParser(description="Interact with Aruba Central")
-# parser.add_argument('integers', metavar='N', type=int, nargs='+',
-#                     help='an integer for the accumulator')
-# parser.add_argument('--test', dest='accumulate', action='store_const',
-#                     const=sum, default=max,
-#                     help='sum the integers (default: find the max)')
 parser.add_argument(
     "--refresh", dest="profile", help="Refresh access token for profile"
 )
@@ -43,10 +38,38 @@ parser.add_argument(
 args = parser.parse_args()
 logging.basicConfig(level=args.loglevel)
 
+logger = logging.getLogger(__name__)
+logger.setLevel(args.loglevel)
+ch = logging.StreamHandler()
+ch.setLevel(args.loglevel)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
+# TODO: move location of configuration files to config.yml instead of hard coded
 config_dir = os.environ["HOME"] + "/.arubacentral/"
 yaml_files = ["accounts.yml", "regions.yml", "config.yml"]
 
+import functools
+class LogDecorator(object):
+    def __init__(self):
+        self.logger = logging.getLogger(__name__)
 
+    def __call__(self, fn):
+        @functools.wraps(fn)
+        def decorated(*args, **kwargs):
+            try:
+                self.logger.debug("{0} - {1} - {2}".format(fn.__name__, args, kwargs))
+                result = fn(*args, **kwargs)
+                self.logger.debug(result)
+                return result
+            except Exception as ex:
+                self.logger.debug("Exception {0}".format(ex))
+                raise ex
+            return result
+        return decorated
+
+@LogDecorator()
 def copy_config_files(backup):
     for conffile in yaml_files:
         print("Copying file " + conffile + " to " + config_dir + "....")
@@ -68,7 +91,7 @@ def copy_config_files(backup):
     for editconf in yaml_files:
         print("\t" + config_dir + editconf)
 
-
+@LogDecorator()
 def check_config(args):
     if args.configure == True:
         print("Checking for existing configuration files....")
@@ -96,7 +119,7 @@ def check_config(args):
             copy_config_files(backup=0)
             print("\nExiting...")
 
-
+@LogDecorator()
 def authcode(profile):
     import pyarubacentral
 
@@ -105,7 +128,7 @@ def authcode(profile):
     access_token = json.loads(session.get_access_token(logindata))["access_token"]
     print("\nAccess Token: {}\n".format(access_token))
 
-
+@LogDecorator()
 def refresh(profile):
     import pyarubacentral
 
@@ -114,7 +137,7 @@ def refresh(profile):
     print("\n[{}]".format(profile))
     print("Access Token: " + access_token + "\n")
 
-
+@LogDecorator()
 def main():
     # print(args)
     if len(sys.argv) == 1:
